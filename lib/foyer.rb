@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require_relative './lib/top_up_kiosk/kiosk_menu'
-require_relative './lib/travel_calculator/station_map'
-require_relative './lib/travel_calculator/station'
-require_relative './lib/travel_calculator/journey_menu'
+require_relative './top_up_kiosk/kiosk_menu'
+require_relative './travel_calculator/station_map'
+require_relative './travel_calculator/station'
+require_relative './travel_calculator/journey_menu'
 
-class MainMenu
+class Foyer
 
   def initialize
     build_station_map
@@ -47,5 +47,3 @@ class MainMenu
     StationMap.build_map
   end
 end
-
-MainMenu.new
