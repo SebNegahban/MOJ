@@ -9,7 +9,7 @@ class StationMap
   @@stations = {}
 
   def self.build_map
-    CSV.read("stations.csv").each do |station_import_line|
+    CSV.read("./fixtures/stations.csv").each do |station_import_line|
       station_name, station_zones = station_import_line
       station_zones = station_zones.split(',')
       station_zones = station_zones[0] if station_zones.size == 1

@@ -2,6 +2,7 @@
 While functional, this project is very much a work-in-progress and it will take a considerable amount of further work for me to be content with it. Currently there are no specs, no Gemfile, and little-to-no documentation.
 
 My main goals moving forwards would be to:
+* Add a MySQL database to allow persistence of stations, card numbers, and add tracking of card owners. This would of course result in a large amount of refactoring, but would be a change for the better of the program.
 * Refactor `FareCalculator`, moving some of the code into a new `ZoneCalculator`.
 * Refactor the `calculate_farest_zones` method if possible, or at the least document it well.
 * Reduce reliance on raising and rescuing exceptions to manage code flow. I cannot stress enough that this is not my standard practice, and is a result of a poor design decision that I made early on but did not have the time to correct. I would much rather create a custom error handling mechanism that `return`s and error state, rather than `raise`ing a custom exception. It works, but it feels like it would lead to issues in the future.
