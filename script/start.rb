@@ -2,4 +2,4 @@
 
 require_relative '../lib/foyer'
 
-Foyer.new
+Foyer.new.display_welcome

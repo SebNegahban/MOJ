@@ -2,16 +2,16 @@
 
 module Menu
   def find_card
-    puts 'Please scan your card'
-    puts '(For this demo, please enter your card number)'
-    puts ''
-    entered_card_number = gets.chomp
-    return fetch_card_by_number(entered_card_number)
+    print_menu(['Please scan your card', '(For this demo, please enter your card number)'])
+    entered_card_number = $stdin.gets.chomp
+    return @scanner.scan(entered_card_number)
   end
 
-  def fetch_card_by_number(card_number)
-    card = @scanner.scan(card_number)
-    return card
+  def print_menu(welcome_messages = [], menu_options = [])
+    welcome_messages.each { |message| puts message }
+    puts '' unless welcome_messages.empty?
+    menu_options.each_with_index { |option, index| puts "  #{index+1}. #{option}" }
+    puts '' unless menu_options.empty?
   end
 
   def clear_screen

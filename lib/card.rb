@@ -5,8 +5,8 @@ require_relative '../errors/input_error'
 class Card
   attr_reader :card_number, :balance
 
-  def initialize(card_number)
-    @card_number = card_number
+  def initialize
+    @card_number = (rand(100000)+1).to_s
     @balance = 0
   end
 
@@ -18,6 +18,8 @@ class Card
   end
 
   def charge(amount)
+    # Prevents a situation where a card can be topped-up using #charge
+    raise InputError.new('Entered amount cannot be negative') if amount.negative?
     @balance -= amount
   end
 

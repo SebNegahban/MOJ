@@ -10,20 +10,14 @@ class JourneyMenu
   def initialize
     @scanner = Scanner.new
     @fare_calculator = FareCalculator.new
-    actions
   end
 
-  private
-
-  def actions
-    puts 'Please select what you would like to do: '
-    puts ''
-    puts '  1. Swipe in for tube station'
-    puts '  2. Swipe out for tube station'
-    puts '  3. Swipe in for bus'
-    puts '  4. Exit'
-    puts ''
-    option_selected = gets.chomp
+  def display_welcome
+    print_menu(
+      ['Please select what you would like to do: '],
+      ['Swipe in for tube station', 'Swipe out for tube station', 'Swipe in for bus', 'Exit']
+    )
+    option_selected = $stdin.gets.chomp
     clear_screen
     begin
       handle_input(option_selected)
@@ -31,50 +25,69 @@ class JourneyMenu
       clear_screen
       puts e.message
       puts ''
-      actions
+      display_welcome
     end
-  end 
+  end
+
+  private 
 
   def handle_input(option_selected)
     case option_selected
     when '1'
-      @origin = get_origin
-      card = find_card
-      @fare_calculator.default_charge(card)
-      actions
+      get_origin
     when '2'
-      @destination = get_destination
-      card = find_card
-      @fare_calculator.calculate_fare(card, 'tube', @origin, @destination) if card
-      actions
+      get_destination
     when '3'
-      card = find_card
-      @fare_calculator.calculate_fare(card, 'bus') if card
-      actions
+      take_bus
     when '4'
-      @scanner.clear_card
+      exit_menu
     else
       puts 'Invalid selection, please try again.'
       puts ''
-      actions
+      display_welcome
     end
   end
 
   def get_origin
-    puts 'Please enter your station of origin: '
-    puts ''
-    station_name = gets.chomp
-    StationMap.get_station(station_name)
-    return station_name
+    @origin = get_station
+
+    # Catches issue where if you entered an origin then purposefully failed the card lookup, you could gain
+    # funds on your card because you were never charged but gained the 'refund' from the post-travel calculation.
+    begin
+      card = find_card
+    rescue InputError => e
+      @origin = nil
+      raise
+    end
+
+    @fare_calculator.default_charge(card)
+    display_welcome
   end
 
   def get_destination
     raise InputError.new 'You must select an origin before selecting a destination.' unless @origin
-    
-    puts 'Please enter your destination station: '
+
+    @destination = get_station
+    card = find_card
+    @fare_calculator.calculate_fare(card, 'tube', @origin, @destination) if card
+    display_welcome
+  end
+
+  def take_bus
+    card = find_card
+    @fare_calculator.calculate_fare(card, 'bus') if card
+    display_welcome
+  end
+
+  def get_station
+    puts 'Please enter the name of the station: '
     puts ''
-    station_name = gets.chomp
-    StationMap.get_station(station_name)
-    return station_name
+    station_name = $stdin.gets.chomp
+    clear_screen
+    return StationMap.get_station(station_name)
+  end
+
+  def exit_menu
+    @scanner.clear_card
   end
 end

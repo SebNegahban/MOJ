@@ -10,18 +10,14 @@ class KioskMenu
 
   def initialize
     @scanner = Scanner.new
-    display_welcome
   end
 
   def display_welcome
-    puts 'Welcome, please select an option: '
-    puts ''
-    puts '  1. Register a new card'
-    puts '  2. Top-up an existing card'
-    puts '  3. Check balance'
-    puts '  4. Exit'
-    puts ''
-    option_selected = gets.chomp
+    print_menu(
+      ['Welcome, please select an option: '],
+      ['Register a new card', 'Top-up an existing card', 'Check balance', 'Exit']
+    )
+    option_selected = $stdin.gets.chomp
     clear_screen
     begin
       handle_input(option_selected)
@@ -46,16 +42,20 @@ class KioskMenu
     when '4'
       exit_menu
     else
-      puts 'Invalid entry, please try again'
+      puts 'Invalid selection, please try again.'
       puts ''
       display_welcome
     end
   end
 
+  # Were this a real-world situation with physical cards, there would be a distinction between
+  # card creation and card registering, hence the existence of Scanner#card_already_registered.
+  # In this solution however, cleanly creating trackable cards without 'registering' them to a user (or in this 
+  # case adding them to a constant hash in Scanner) would involve a lot of messy constants and collections 
+  # that are implicitly handled in real life. As such, I thought it best to not worry too much about the 
+  # difference between card creation and registration, and instead to make #register_card to encompass them both.
   def register_card
-    puts 'Please scan your card'
-    puts ''
-    @scanner.register_card(Card.new((rand(100000)+1).to_s))
+    @scanner.register_card(Card.new)
     clear_screen
     puts 'Card registered.'
     puts "Your card number is: #{@scanner.current_card.card_number}"
@@ -64,10 +64,10 @@ class KioskMenu
   end
 
   def top_up_card
-    card = @scanner.current_card ? @scanner.current_card : find_card
+    card = @scanner.current_card || find_card
     puts 'Please enter how much you would like to top-up by in GBP: '
     puts ''
-    amount = gets.chomp
+    amount = $stdin.gets.chomp
     added_amount = card.top_up(amount)
     clear_screen
     puts "Card topped up by £#{sprintf("%.2f", added_amount)}, thank you and have a safe journey."
@@ -75,11 +75,11 @@ class KioskMenu
   end
 
   def check_balance
-    card = @scanner.current_card ? @scanner.current_card : find_card
+    card = @scanner.current_card || find_card
     puts "Your current balance is: £#{sprintf("%.2f", card.balance)}"
     puts ''
     puts 'Press any key to continue.'
-    gets.chomp
+    $stdin.gets.chomp
     clear_screen
     display_welcome
   end

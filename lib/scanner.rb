@@ -13,7 +13,7 @@ class Scanner
   end
 
   def register_card(card)
-    card_already_registered if @@cards.has_value?(card.card_number)
+    card_already_registered if @@cards.has_key?(card.card_number)
     @@cards[card.card_number] = card
     @current_card = card
   end
@@ -31,7 +31,7 @@ class Scanner
   end
 
   def unreadable_card
-    # Add some kind of logging to track number of unreadable cards?
+    # Add some kind of logging to track number of unreadable cards
     raise InputError.new('Unreadable card, please try again')
   end
 
