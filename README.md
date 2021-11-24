@@ -19,7 +19,7 @@ Eventual goals:
 As in the real Oyster system, if you do not have enough money on your card to complete a journey, you will be allowed to go into negative credit.  While in negative credit, you will not be able to make any journeys (until you top-up your card again).
 
 # Specs
-I have written specs to cover 96.63% of the code, the only lines that are excluded are those that print the three menus to the user.
+I have written specs to cover 96.68% of the code, the only lines that are excluded are those that print the three menus to the user.
 I had some difficulty finding a way to write specs for these as the methods are automatically recursive, and I was unable to find a way to call the original method once, then stub all subsquent calls. If I were able to find a way to do this, I would aim for 100% code coverage.  
 To run the specs, simply run `bundle exec rspec .`. After having run this, you will be able to find the code coverage report in `/coverage/`. To view the report, open `/coverage/index.html` in your browser of choice.
 
