@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 RSpec.describe Foyer do
-
   subject { Foyer.new }
 
   context '#initialze' do

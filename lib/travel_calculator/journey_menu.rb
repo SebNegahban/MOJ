@@ -4,6 +4,7 @@ require_relative '../menu'
 require_relative './fare_calculator'
 require_relative '../../errors/input_error'
 
+# Gets the origin and destination of the user's journey
 class JourneyMenu
   include Menu
 
@@ -29,14 +30,14 @@ class JourneyMenu
     end
   end
 
-  private 
+  private
 
   def handle_input(option_selected)
     case option_selected
     when '1'
-      get_origin
+      fetch_origin
     when '2'
-      get_destination
+      fetch_destination
     when '3'
       take_bus
     when '4'
@@ -48,14 +49,14 @@ class JourneyMenu
     end
   end
 
-  def get_origin
-    @origin = get_station
+  def fetch_origin
+    @origin = find_station
 
     # Catches issue where if you entered an origin then purposefully failed the card lookup, you could gain
     # funds on your card because you were never charged but gained the 'refund' from the post-travel calculation.
     begin
       card = find_card
-    rescue InputError => e
+    rescue InputError
       @origin = nil
       raise
     end
@@ -64,10 +65,10 @@ class JourneyMenu
     display_welcome
   end
 
-  def get_destination
-    raise InputError.new 'You must select an origin before selecting a destination.' unless @origin
+  def fetch_destination
+    raise InputError, 'You must select an origin before selecting a destination.' unless @origin
 
-    @destination = get_station
+    @destination = find_station
     card = find_card
     @fare_calculator.calculate_fare(card, 'tube', @origin, @destination) if card
     display_welcome
@@ -79,12 +80,12 @@ class JourneyMenu
     display_welcome
   end
 
-  def get_station
+  def find_station
     puts 'Please enter the name of the station: '
     puts ''
     station_name = $stdin.gets.chomp
     clear_screen
-    return StationMap.get_station(station_name)
+    return StationMap.find_station(station_name)
   end
 
   def exit_menu

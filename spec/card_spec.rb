@@ -1,16 +1,15 @@
 # frozen_string_literal: true
 
 RSpec.describe Card do
-
   it 'sets a random card number on initialisation' do
-    card_2 = Card.new
+    card2 = Card.new
 
     expect(subject.card_number.to_i).to be_between(1, 100000)
 
     # There is obviously a tiny chance that the two card numbers will be the same.
     # While this is miniscule, to fix it, I would utilise the MySQL database that I have previously mentioned
     # and enforce uniqueness on card numbers.
-    expect(subject.card_number).not_to eq(card_2.card_number)
+    expect(subject.card_number).not_to eq(card2.card_number)
   end
 
   describe '#top_up' do
@@ -34,7 +33,7 @@ RSpec.describe Card do
       end
 
       it 'raises an exception if the entered amount is negative' do
-        expect{ subject.top_up(-1.23) }.to raise_error(InputError, /entered amount cannot be negative/i)
+        expect { subject.top_up(-1.23) }.to raise_error(InputError, /entered amount cannot be negative/i)
       end
     end
   end
@@ -56,7 +55,7 @@ RSpec.describe Card do
 
     context 'exceptions' do
       it 'raises an exception if the charged amount is negative' do
-        expect{ subject.charge(-1.5) }.to raise_error(InputError, /entered amount cannot be negative/i)
+        expect { subject.charge(-1.5) }.to raise_error(InputError, /entered amount cannot be negative/i)
       end
     end
   end

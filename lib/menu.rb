@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Contains shared methods of the menus within the program
 module Menu
   def find_card
     print_menu(['Please scan your card', '(For this demo, please enter your card number)'])
@@ -10,7 +11,7 @@ module Menu
   def print_menu(welcome_messages = [], menu_options = [])
     welcome_messages.each { |message| puts message }
     puts '' unless welcome_messages.empty?
-    menu_options.each_with_index { |option, index| puts "  #{index+1}. #{option}" }
+    menu_options.each_with_index { |option, index| puts "  #{index + 1}. #{option}" }
     puts '' unless menu_options.empty?
   end
 

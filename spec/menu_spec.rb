@@ -5,13 +5,12 @@ class DummyMenu
 
   attr_reader :scanner
 
-  def initialize 
+  def initialize
     @scanner = Scanner.new
   end
 end
 
 RSpec.describe Menu do
-  
   subject { DummyMenu.new }
 
   describe '#print_menu' do

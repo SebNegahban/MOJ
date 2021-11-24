@@ -5,6 +5,7 @@ require_relative '../card'
 require_relative '../menu'
 require_relative '../../errors/input_error'
 
+# Acts as a Oyster Card kiosk for registering, topping up, and checking the balance of cards.
 class KioskMenu
   include Menu
 
@@ -50,9 +51,9 @@ class KioskMenu
 
   # Were this a real-world situation with physical cards, there would be a distinction between
   # card creation and card registering, hence the existence of Scanner#card_already_registered.
-  # In this solution however, cleanly creating trackable cards without 'registering' them to a user (or in this 
-  # case adding them to a constant hash in Scanner) would involve a lot of messy constants and collections 
-  # that are implicitly handled in real life. As such, I thought it best to not worry too much about the 
+  # In this solution however, cleanly creating trackable cards without 'registering' them to a user (or in this
+  # case adding them to a constant hash in Scanner) would involve a lot of messy constants and collections
+  # that are implicitly handled in real life. As such, I thought it best to not worry too much about the
   # difference between card creation and registration, and instead to make #register_card to encompass them both.
   def register_card
     @scanner.register_card(Card.new)
@@ -70,13 +71,13 @@ class KioskMenu
     amount = $stdin.gets.chomp
     added_amount = card.top_up(amount)
     clear_screen
-    puts "Card topped up by £#{sprintf("%.2f", added_amount)}, thank you and have a safe journey."
+    puts "Card topped up by £#{format('%.2f', added_amount)}, thank you and have a safe journey."
     display_welcome
   end
 
   def check_balance
     card = @scanner.current_card || find_card
-    puts "Your current balance is: £#{sprintf("%.2f", card.balance)}"
+    puts "Your current balance is: £#{format('%.2f', card.balance)}"
     puts ''
     puts 'Press any key to continue.'
     $stdin.gets.chomp

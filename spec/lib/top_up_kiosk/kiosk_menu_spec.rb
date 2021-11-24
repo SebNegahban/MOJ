@@ -44,7 +44,6 @@ RSpec.describe KioskMenu do
   end
 
   describe '#register_card' do
-
     let(:card) { Card.new }
 
     before do
@@ -71,7 +70,9 @@ RSpec.describe KioskMenu do
     end
 
     it 'informs the user of their card number' do
-      expect {subject.send(:register_card) }.to output("Card registered.\nYour card number is: #{card.card_number}\n\n").to_stdout
+      expect do
+        subject.send(:register_card)
+      end.to output("Card registered.\nYour card number is: #{card.card_number}\n\n").to_stdout
     end
 
     it 'reprints the menu' do
@@ -82,9 +83,8 @@ RSpec.describe KioskMenu do
   end
 
   describe '#top_up_card' do
+    let(:card) { Card.new }
 
-    let (:card) { Card.new }
-    
     before do
       allow(card).to receive(:top_up).and_return('12.34')
       subject.instance_variable_get(:@scanner).register_card(card)
@@ -144,8 +144,8 @@ RSpec.describe KioskMenu do
   end
 
   describe '#check_balance' do
-    let (:card) { Card.new }
-    
+    let(:card) { Card.new }
+
     before do
       subject.instance_variable_get(:@scanner).register_card(card)
       allow($stdin).to receive(:gets).and_return('ok')

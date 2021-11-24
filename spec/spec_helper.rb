@@ -5,7 +5,7 @@ SimpleCov.start
 
 require 'bundler/setup'
 # Require all .rb files in lib directory
-Dir[File.join(__dir__, '../lib', '*.rb')].each { |file| require file }
+Dir[File.join(__dir__, '../lib', '*.rb')].sort.each { |file| require file }
 require_relative '../errors/input_error'
 
 RSpec.configure do |config|

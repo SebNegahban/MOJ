@@ -1,19 +1,18 @@
 # frozen_string_literal: true
 
 RSpec.describe Scanner do
-
   describe '#register_card' do
     it 'registers a new card and adds it to the class variable array' do
       card = Card.new
       subject.register_card(card)
-      
+
       expect(Scanner.class_variable_get(:@@cards).keys).to include(card.card_number)
     end
 
     it 'sets the registered card to be the #current_card' do
       card = Card.new
       subject.register_card(card)
-      
+
       expect(subject.current_card).to eq(card)
     end
 
@@ -29,11 +28,11 @@ RSpec.describe Scanner do
 
   describe '#clear_card' do
     it 'resets the #current_card to nil' do
-    card = Card.new
-    subject.register_card(card)
-    subject.clear_card
+      card = Card.new
+      subject.register_card(card)
+      subject.clear_card
 
-    expect(subject.current_card).to eq(nil)
+      expect(subject.current_card).to eq(nil)
     end
   end
 
@@ -49,7 +48,7 @@ RSpec.describe Scanner do
 
     context 'exceptions' do
       it 'raises an error if the card number is invalid' do
-        expect{ subject.scan('invalid_card_number') }.to raise_error(InputError, /unreadable card, please try again/i)
+        expect { subject.scan('invalid_card_number') }.to raise_error(InputError, /unreadable card, please try again/i)
       end
 
       it 'raises an error if the card cannot be found' do

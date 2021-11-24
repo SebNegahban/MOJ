@@ -6,6 +6,7 @@ require_relative './travel_calculator/station_map'
 require_relative './travel_calculator/station'
 require_relative './travel_calculator/journey_menu'
 
+# The opening menu, representing the foyer of the tube station or bus stop
 class Foyer
   include Menu
 
@@ -16,7 +17,7 @@ class Foyer
   def display_welcome
     print_menu(
       ['Please select an option: '],
-      ['Visit the top-up kiosk', 'Go on a journey','Leave the station']
+      ['Visit the top-up kiosk', 'Go on a journey', 'Leave the station']
     )
     option_selected = $stdin.gets.chomp
     clear_screen
