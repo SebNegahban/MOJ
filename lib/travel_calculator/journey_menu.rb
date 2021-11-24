@@ -52,16 +52,17 @@ class JourneyMenu
   def fetch_origin
     @origin = find_station
 
-    # Catches issue where if you entered an origin then purposefully failed the card lookup, you could gain
-    # funds on your card because you were never charged but gained the 'refund' from the post-travel calculation.
+    # Catches issue where if you entered an origin then purposefully failed the card lookup or had a negative card
+    # balance, you could gain funds on your card because you were never charged but gained the 'refund' from the
+    # post-travel calculation.
     begin
       card = find_card
+      @fare_calculator.default_charge(card)
     rescue InputError
       @origin = nil
       raise
     end
 
-    @fare_calculator.default_charge(card)
     display_welcome
   end
 
