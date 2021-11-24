@@ -1,0 +1,24 @@
+AllCops:
+  TargetRubyVersion: 2.7.4
+
+# The start script cannot have the frozen string literal comment as the first line must be a
+Style/FrozenStringLiteralComment:
+  Exclude:
+    - 'script/start.rb'
+# I personally don't like the look of the underscore-separated numbers
+Style/NumericLiterals:
+  Enabled: false
+# While technically redundant, I think the explicit 'return' statements make the code clearer
+Style/RedundantReturn:
+  Enabled: false
+# I think class vars are somewhat of a necessary 'evil' (according to rubocop) in this project.
+Style/ClassVars:
+  Enabled: false
+
+# I think the limit of 10 lines is overly restrictive.
+Metrics/MethodLength:
+  Max: 20
+# This was only triggering on specs, and I truly don't believe it matters whether a 'describe' block
+# for a class is over 25 lines
+Metrics/BlockLength:
+  Enabled: false
