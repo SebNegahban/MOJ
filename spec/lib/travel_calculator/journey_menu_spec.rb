@@ -76,6 +76,13 @@ RSpec.describe JourneyMenu do
       expect(subject.instance_variable_get(:@origin)).to eq(nil)
     end
 
+    it 'clears the origin station if an error is raised when attempting to go on a journey' do
+      allow(subject.instance_variable_get(:@fare_calculator)).to receive(:default_charge).and_raise(InputError)
+
+      expect { subject.send(:fetch_origin) }.to raise_error(InputError)
+      expect(subject.instance_variable_get(:@origin)).to eq(nil)
+    end
+
     it 're-renders the menu' do
       expect(subject).to receive(:display_welcome)
 
